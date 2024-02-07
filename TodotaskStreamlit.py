@@ -46,7 +46,10 @@ def main():
     st.title("To-Do List App with Linked List")
 
     # Initialize a linked list
-    tasks_list = LinkedList()
+    tasks_list = st.session_state.get('tasks_list') # use session state to store and retrieve linked list 
+    if tasks_list is None:
+        tasks_list = LinkedList()
+        st.session_state.tasks_list = tasks_list
 
     # Sidebar for adding tasks
     task_input = st.sidebar.text_input("Add Task:")
@@ -61,6 +64,7 @@ def main():
             tasks_list.remove_task(task_to_remove)
 
     # Main content to display tasks
+    task_to_remove = st.sidebar.selectbox("View Task:", options=tasks_list.display_tasks())  # Add selectbox for viewing tasks
     st.write("## Your To-Do List:")
     tasks = tasks_list.display_tasks()
 
